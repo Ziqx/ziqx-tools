@@ -15,10 +15,11 @@ const SingleCounter = () => {
 
 
     function add(count:number){
-
         setVal((prev)=>{
             return prev + count
         });
+
+        localStorage.setItem("ztoolcounter",val.toString());
     }
 
   
@@ -28,6 +29,7 @@ const SingleCounter = () => {
             <h1 className="text-3xl font-bold">Single Counter</h1>
             <input type="number"
             value={val}
+            onChange={(e) => setVal(parseInt(e.target.value))}
             className="text-7xl outline-none w-32 text-center my-10" />
             <div className="flex gap-10">
              <button
