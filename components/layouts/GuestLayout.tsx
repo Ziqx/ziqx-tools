@@ -8,7 +8,9 @@ const GuestLayout = (props:any) => {
                 <img src="/images/logo.svg" className="h-14" alt="" />
                 </Link>
             </section>
+            <main className="min-h-[80vh]">
             {props.children}
+            </main>
 
             <footer className="bg-black py-10 fullcenter text-white">
                 <div className="my-2">© {new Date().getFullYear()} Ziqx Tools</div>
