@@ -52,7 +52,7 @@ jobs:
 
             rsync -a --delete --exclude='.git' $BUILD_DIR/ $MAIN_DIR
 
-            pm2 restart "z-card"
+            pm2 restart "z-tools"
             
 
       - name: Notify deployment success
