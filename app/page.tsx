@@ -12,6 +12,7 @@ const IndexPage = () => {
           <p className="text-center text-sm text-gray-400 lg:w-6/12 my-2">
           Discover a variety of essential tools designed to make your life easier. From decoding JWT tokens to managing your tasks and jotting down quick notes, our platform offers a growing collection of utilities to meet your everyday needs.
           </p>
+          
         </section>
         <section className="bg-gray-100  border p-5 grid lg:grid-cols-4 gap-10">
           {
