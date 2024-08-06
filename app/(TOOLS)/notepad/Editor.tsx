@@ -1,7 +1,7 @@
 "use client";
 
+import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 export default function TextEditor() {
@@ -18,6 +18,8 @@ export default function TextEditor() {
     setValue(content);
     localStorage.setItem('ztoolnotepad',content);
   }
+
+  const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
   return <ReactQuill theme="snow" 
   style={{height: "80vh"}}
