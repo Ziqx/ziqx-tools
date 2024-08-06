@@ -10,3 +10,8 @@ const AiCodeEditor = () => {
 }
 
 export default AiCodeEditor;
+
+export const metadata = {
+    title: 'AI Code Editor | Ziqx Tools',
+    description: 'Free AI powered code editor',
+}
