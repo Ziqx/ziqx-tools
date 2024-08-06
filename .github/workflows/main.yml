@@ -1,0 +1,64 @@
+name: Deploy on Push
+
+on:
+  push:
+    branches:
+      - main  # Change this to the branch you want to trigger the action on
+    
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Use the latest version of Ubuntu
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2  # This action checks out your repository's code
+
+      - name: Login to Server and Deploy ZCARD
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}  # IP address of your SSH server
+          username: ${{ secrets.SSH_USERNAME }}  # SSH username
+          password: ${{ secrets.SSH_PASSWORD }}  # SSH password
+          script: |
+
+            MAIN_DIR=/home/projects/ziqx-tools
+            BUILD_DIR=/home/projects/builds/ziqx-tools
+
+            cd $MAIN_DIR
+            gh repo sync
+
+            mkdir -p $BUILD_DIR
+            rm -rf $BUILD_DIR/*
+
+            rsync -a --progress $MAIN_DIR/ $BUILD_DIR --exclude .next
+
+            cd $BUILD_DIR
+            npm install
+
+            # if ! npx prisma migrate deploy; then
+            #   echo "Prisma migrate failed in build directory, exiting"
+            #   exit 1
+            # fi
+            # if ! npx prisma generate; then
+            #   echo "Prisma generate failed in build directory, exiting"
+            #   exit 1
+            # fi
+            if ! npm run build; then
+              echo "Build failed in build directory, exiting"
+              exit 1
+            fi
+
+
+            rsync -a --delete --exclude='.git' $BUILD_DIR/ $MAIN_DIR
+
+            pm2 restart "z-card"
+            
+
+      - name: Notify deployment success
+        if: success()
+        run: echo "Deployment succeeded"
+
+      - name: Notify deployment failure
+        if: failure()
+        run: echo "Deployment failed, build directory not copied"
